@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>LNRA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#3B8FD2;--blue-dark:#2775BE;--navy:#030c18;--white:#fff;--gray:#7090b0;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;
+  justify-content:space-between;padding:18px 60px;background:rgba(3,12,24,0.96);
+  border-bottom:1px solid rgba(59,143,210,0.2);}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--gray);
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:color .2s;}
+.nav-back:hover{color:var(--blue);}
+
+.hero{min-height:100vh;background:linear-gradient(145deg,#030c18 0%,#071628 50%,#0a1f35 100%);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  text-align:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(59,143,210,0.1) 0%,transparent 65%);}
+.hero-logo{height:90px;max-width:380px;object-fit:contain;margin-bottom:40px;position:relative;z-index:2;}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;
+  color:var(--blue);margin-bottom:16px;position:relative;z-index:2;}
+.hero-countries{font-size:13px;color:var(--gray);position:relative;z-index:2;}
+
+.content{display:grid;grid-template-columns:1fr 1fr;max-width:1400px;margin:0 auto;}
+.desc-block{background:#05101f;padding:80px 60px;border-right:1px solid rgba(59,143,210,0.1);}
+.desc-block h2{font-size:52px;font-weight:700;line-height:1.05;color:var(--white);margin-bottom:24px;letter-spacing:-1px;}
+.desc-block h2 span{color:var(--blue);}
+.divider{width:48px;height:2px;background:var(--blue);margin:24px 0;}
+.desc-block p{font-size:15px;line-height:1.8;color:var(--gray);}
+.social-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--blue);margin-top:48px;margin-bottom:16px;}
+.social-links{display:flex;gap:12px;}
+.social-link{width:44px;height:44px;background:rgba(59,143,210,0.08);
+  border:1px solid rgba(59,143,210,0.2);display:flex;align-items:center;justify-content:center;
+  color:var(--gray);text-decoration:none;transition:all .2s;}
+.social-link:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+.data-block{background:#040e1c;padding:80px 60px;}
+.data-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:24px;}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:48px;}
+.stat{background:#05101f;padding:40px 28px;text-align:center;border:1px solid rgba(59,143,210,0.12);}
+.stat-val{font-size:52px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:8px;}
+.stat-label{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gray);}
+.countries-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.country-tag{background:rgba(59,143,210,0.08);border:1px solid rgba(59,143,210,0.25);
+  padding:6px 16px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);}
+
+footer{background:#020a14;border-top:1px solid rgba(59,143,210,0.12);padding:24px 60px;
+  display:flex;align-items:center;justify-content:space-between;}
+footer p{font-size:11px;color:var(--gray);}
+.back-link{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gray);text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--blue);}
+
+.lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 24px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding-left: 24px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      padding: 4px 6px;
+      transition: color 0.2s;
+      text-transform: uppercase;
+    }
+    .lang-btn:hover { color: var(--blue); }
+    .lang-btn.active { color: var(--blue); }
+    .lang-sep { color: rgba(255,255,255,0.15); font-size: 10px; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.4;
+      animation: scrollBounce 2s ease-in-out infinite;
+      z-index: 10;
+    }
+    .scroll-hint span {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .scroll-hint svg { color: #fff; }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+      50%       { transform: translateX(-50%) translateY(6px); opacity: 0.7; }
+    }
+    
+    .carousel-section {
+      background: #030c18;
+      padding: 60px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-wrapper {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+    .carousel-track-outer {
+      overflow: hidden;
+      border-radius: 4px;
+      height: 400px;
+    }
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+      gap: 0;
+    }
+    .carousel-slide {
+      flex-shrink: 0;
+      height: 100%;
+      width: auto;
+      background: #030c18;
+      margin-right: 5px;
+    }
+    .carousel-slide img {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+    .carousel-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: #3B8FD244;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: 1px dashed #3B8FD233;
+      border-radius: 4px;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(59,143,210,0.08);
+      border: 1px solid rgba(59,143,210,0.2);
+      color: #3B8FD2;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      z-index: 10;
+    }
+    .carousel-btn:hover { background: rgba(59,143,210,0.18); }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      background: rgba(59,143,210,0.2);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .carousel-dot.active {
+      background: #3B8FD2;
+      width: 24px;
+      border-radius: 3px;
+    }
+    </style></head><body>
+
+<nav>
+  <a href="kilamba-group-website.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Kilamba Group
+  </a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <img src="data:image/png;base64,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" alt="LNRA" class="hero-logo">
+  <div class="hero-tag" data-i18n="hero_tag">iGaming Marketing &amp; Managed Services</div>
+  <div class="hero-countries">Malte</div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<div class="content">
+  <div class="desc-block">
+    <h2 data-i18n-html="desc_h2">Your iGaming<br><span>growth partner.</span></h2>
+    <div class="divider"></div>
+    <p data-i18n="desc_p1">LNRA is a Malta-based iGaming marketing agency and managed services provider. Specialising in bespoke strategy across management, information systems, HR, marketing and communication, LNRA takes a holistic approach to each client: deep market analysis, precise identification of needs, and strategic recommendations aligned with growth ambitions. With a long-standing track record on African markets and a strong international footprint, LNRA helps gaming operators build lasting competitive advantage.</p>
+    <div class="social-label" data-i18n="follow_us">Follow Us</div>
+    <div class="social-links"><a href="https://www.lnra-trading.mt/" class="social-link" title="Website" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></a><a href="https://www.linkedin.com/company/lnra-trading" class="social-link" title="LinkedIn" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+  </div>
+  <div class="data-block">
+    <div class="data-label" data-i18n="key_figures">Key Figures</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">10</div><div class="stat-label" data-i18n="stat1_label">Business Expertises</div></div>
+      <div class="stat"><div class="stat-val">3</div><div class="stat-label" data-i18n="stat2_label">Continents</div></div>
+    </div>
+    <div class="data-label" data-i18n="presence">Presence</div>
+    <div class="countries-list"><span class="country-tag">Malte</span></div>
+  </div>
+</div>
+
+<footer>
+  <p data-i18n="footer_copy">© 2026 LNRA — A Kilamba Group Brand</p>
+  <a href="kilamba-group-website.html" class="back-link" data-i18n="back_link">← Kilamba Group</a>
+</footer>
+
+<script>
+window._translations = {"en": {"hero_tag": "iGaming Marketing & Managed Services", "hero_countries": "Malta", "desc_h2": "Your iGaming<br><span>growth partner.</span>", "desc_p1": "LNRA is a Malta-based iGaming marketing agency and managed services provider. Specialising in bespoke strategy across management, information systems, HR, marketing and communication, LNRA takes a holistic approach to each client: deep market analysis, precise identification of needs, and strategic recommendations aligned with growth ambitions. With a long-standing track record on African markets and a strong international footprint, LNRA helps gaming operators build lasting competitive advantage.", "follow_us": "Follow Us", "key_figures": "Key Figures", "stat1_label": "Business Expertises", "stat2_label": "Continents", "presence": "Presence", "footer_copy": "© 2026 LNRA — A Kilamba Group Brand", "back_link": "← Kilamba Group"}, "fr": {"hero_tag": "Marketing iGaming & Services Managés", "hero_countries": "Malte", "desc_h2": "Votre partenaire<br><span>de croissance iGaming.</span>", "desc_p1": "LNRA est une agence marketing iGaming et prestataire de services managés basée à Malte. Spécialisée dans l'élaboration de stratégies sur mesure couvrant la gestion, les systèmes d'information, les ressources humaines, le marketing et la communication, LNRA adopte une approche holistique : analyses approfondies du marché, identification précise des besoins et recommandations stratégiques alignées sur les ambitions de croissance de ses clients. Forte d'une longue expérience sur les marchés africains et d'une présence internationale solide, LNRA aide les opérateurs de jeux à bâtir un avantage concurrentiel durable.", "follow_us": "Suivez-nous", "key_figures": "Chiffres Clés", "stat1_label": "Expertises Métier", "stat2_label": "Continents", "presence": "Présence", "footer_copy": "© 2026 LNRA — Une marque Kilamba Group", "back_link": "← Kilamba Group"}, "pt": {"hero_tag": "Marketing iGaming & Serviços Geridos", "hero_countries": "Malta", "desc_h2": "O seu parceiro<br><span>de crescimento iGaming.</span>", "desc_p1": "A LNRA é uma agência de marketing iGaming e prestadora de serviços geridos, sediada em Malta. Especializada no desenvolvimento de estratégias personalizadas nas áreas de gestão, sistemas de informação, recursos humanos, marketing e comunicação, a LNRA adota uma abordagem holística: análise aprofundada do mercado, identificação precisa das necessidades e recomendações estratégicas alinhadas com as ambições de crescimento dos seus clientes. Com uma longa experiência nos mercados africanos e uma sólida presença internacional, a LNRA ajuda os operadores de jogo a construir uma vantagem competitiva duradoura.", "follow_us": "Siga-nos", "key_figures": "Números Chave", "stat1_label": "Expertises de Negócio", "stat2_label": "Continentes", "presence": "Presença", "footer_copy": "© 2026 LNRA — Uma marca Kilamba Group", "back_link": "← Kilamba Group"}, "es": {"hero_tag": "Marketing iGaming & Servicios Gestionados", "hero_countries": "Malta", "desc_h2": "Tu socio<br><span>de crecimiento iGaming.</span>", "desc_p1": "LNRA es una agencia de marketing iGaming y proveedora de servicios gestionados con sede en Malta. Especializada en el desarrollo de estrategias a medida en gestión, sistemas de información, recursos humanos, marketing y comunicación, LNRA adopta un enfoque holístico: análisis profundo del mercado, identificación precisa de necesidades y recomendaciones estratégicas alineadas con las ambiciones de crecimiento de sus clientes. Con una larga trayectoria en los mercados africanos y una sólida presencia internacional, LNRA ayuda a los operadores de juego a construir una ventaja competitiva duradera.", "follow_us": "Síguenos", "key_figures": "Cifras Clave", "stat1_label": "Expertises de Negocio", "stat2_label": "Continentes", "presence": "Presencia", "footer_copy": "© 2026 LNRA — Una marca Kilamba Group", "back_link": "← Kilamba Group"}};
+</script>
+
+<script>
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  const t = window._translations && window._translations[lang];
+  if (!t) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    if (t[el.dataset.i18n] !== undefined) el.textContent = t[el.dataset.i18n];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    if (t[el.dataset.i18nHtml] !== undefined) el.innerHTML = t[el.dataset.i18nHtml];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+  });
+}
+</script>
+
+<section class="carousel-section">
+  <div class="carousel-wrapper">
+    <div class="carousel-track-outer">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-empty">— Photos à venir —</div>
+      </div>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+</section>
+<script>
+(function() {
+  const track = document.getElementById('carouselTrack');
+  if (!track) return;
+  const outer = track.parentElement;
+  const dotsEl = document.getElementById('carouselDots');
+  const realSlides = Array.from(track.querySelectorAll('.carousel-slide'));
+  if (realSlides.length === 0) return; // pas encore de photos
+
+  let current = 0;
+  let jumping = false;
+  const total = realSlides.length;
+
+  for (let i = 0; i < 3; i++) track.appendChild(realSlides[i].cloneNode(true));
+
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function txFor(idx) {
+    let leftEdge = 0;
+    for (let i = 0; i < idx; i++) {
+      leftEdge += realSlides[i % total].offsetWidth + 5;
+    }
+    const rightEdge = leftEdge + realSlides[idx % total].offsetWidth;
+    return rightEdge - outer.offsetWidth;
+  }
+
+  function apply(idx, animate) {
+    track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' : 'none';
+    track.style.transform = 'translateX(' + (-txFor(idx)) + 'px)';
+  }
+
+  function updateDots(idx) {
+    const d = ((idx % total) + total) % total;
+    dotsEl.querySelectorAll('.carousel-dot').forEach((dot, i) =>
+      dot.classList.toggle('active', i === d));
+  }
+
+  function goTo(n) {
+    if (jumping) return;
+    current = n;
+    apply(current, true);
+    updateDots(current);
+    if (current >= total) {
+      jumping = true;
+      track.addEventListener('transitionend', function onEnd() {
+        track.removeEventListener('transitionend', onEnd);
+        current -= total;
+        apply(current, false);
+        jumping = false;
+      });
+    }
+  }
+
+  window.goTo = goTo;
+  window.carouselMove = dir => goTo(current + dir);
+})();
+</script>
+</body></html>
